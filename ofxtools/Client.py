@@ -238,6 +238,18 @@ class OFXClient(object):
         # py3k: ElementTree.tostring() returns bytes not str
         data = self.ofxheader + ET.tostring(tree).decode()
 
+        if self.version in (102, 103, 151, 160):
+            '''https://stackoverflow.com/questions/25950635/check-if-element-has-children-or-not#25950759'''
+            child_end_tag_list = []
+            for child in tree.iter():
+                if child.text:
+                    if len(child.text.split()) > 0:
+                        child_end_tag_list.append("</"+child.tag+">")
+
+            for child_end_tag in child_end_tag_list:
+                if child_end_tag in data:
+                    data=data.replace(child_end_tag,"")
+
         if dryrun:
             return BytesIO(data.encode("ascii"))
 
