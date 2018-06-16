@@ -154,7 +154,7 @@ class OFXClient(object):
         """
         Package and send OFX profile requests (PROFRQ).
         """
-        dtprofup = datetime.date(1990, 1, 1)
+        dtprofup = "19900101"
         profrq = PROFRQ(clientrouting='NONE', dtprofup=dtprofup)
         trnuid = uuid.uuid4()
         proftrnrq = PROFTRNRQ(trnuid=trnuid, profrq=profrq)
